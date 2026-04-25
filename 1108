@@ -1,106 +1,425 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>每日永續投獎建議 - 塑膠包材總經理兼永續長</title>
+    <title>2026 澎湖精算行程 (5/23-26)</title>
     <style>
-        body { font-family: '微軟正黑體', 'Microsoft JhengHei', sans-serif; margin: 20px; background-color: #f4f7f6; }
-        .container { max-width: 1200px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        h1 { color: #004d40; border-bottom: 3px solid #004d40; padding-bottom: 10px; }
-        .role-info { background-color: #e0f2f1; padding: 15px; border-radius: 5px; margin-bottom: 20px; border-left: 5px solid #00796b; }
-        .update-time { text-align: right; font-size: 0.9em; color: #666; margin-bottom: 15px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.9em; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; vertical-align: top; }
-        th { background-color: #009688; color: white; font-weight: bold; }
-        tr:nth-child(even) { background-color: #f9f9f9; }
-        .suggestion { background-color: #fff3e0; border-left: 3px solid #ff9800; padding: 8px; margin-top: 5px; font-weight: 500; }
-        .focus { color: #d32f2f; font-weight: bold; }
+        :root {
+            --primary: #0077b6;
+            --accent: #e63946;
+            --bg: #f0f4f8;
+            --card-bg: #ffffff;
+            --text: #2d3436;
+            --travel-time: #636e72;
+        }
+
+        body { font-family: "Microsoft JhengHei", -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; line-height: 1.5; }
+        .container { max-width: 900px; margin: 0 auto; padding: 10px; }
+        
+        /* Header */
+        header { background: linear-gradient(120deg, #00b4d8, #0077b6); color: white; padding: 25px 15px; border-radius: 0 0 20px 20px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        header h1 { margin: 0; font-size: 1.5rem; }
+        header p { margin: 5px 0 0; opacity: 0.9; font-size: 0.9rem; }
+
+        /* Alert Box */
+        .alert { background: #fff3cd; border-left: 5px solid #ffc107; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; color: #856404; }
+        .alert strong { display: block; margin-bottom: 5px; color: #d35400; }
+
+        /* Toggle Buttons */
+        .toggle-container { display: flex; justify-content: center; margin-bottom: 20px; background: #dfe6e9; padding: 5px; border-radius: 50px; width: fit-content; margin-left: auto; margin-right: auto; }
+        .toggle-btn { padding: 8px 20px; border: none; background: transparent; cursor: pointer; font-weight: bold; color: #636e72; border-radius: 50px; transition: 0.3s; }
+        .toggle-btn.active { background: white; color: var(--primary); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .toggle-btn.active[data-target="planB"] { color: var(--accent); }
+
+        /* Day Card */
+        .day-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .day-header { padding: 15px; background: var(--primary); color: white; display: flex; justify-content: space-between; align-items: center; }
+        .day-title { font-weight: bold; font-size: 1.1rem; }
+        .nav-link { background: rgba(255,255,255,0.2); color: white; text-decoration: none; padding: 5px 12px; border-radius: 15px; font-size: 0.8rem; }
+        
+        /* Specific Header Colors */
+        .d1.planB .day-header { background: var(--accent); }
+        .d2 .day-header { background: #e07a5f; }
+        .d3 .day-header { background: #2a9d8f; }
+        .d4 .day-header { background: #9b5de5; }
+
+        /* Timeline Table */
+        .timeline-table { width: 100%; border-collapse: collapse; }
+        .timeline-row { border-bottom: 1px solid #f1f1f1; }
+        .timeline-row:last-child { border-bottom: none; }
+        
+        .col-time { width: 70px; padding: 15px 10px; text-align: center; vertical-align: top; border-right: 2px solid #f1f1f1; }
+        .arrival-time { font-weight: 800; font-size: 1rem; color: var(--primary); display: block; }
+        .duration-label { font-size: 0.75rem; color: #888; background: #eee; padding: 2px 5px; border-radius: 4px; margin-top: 5px; display: inline-block; }
+
+        .col-content { padding: 15px 10px; vertical-align: top; }
+        .spot-name { font-weight: bold; font-size: 1rem; display: block; margin-bottom: 5px; color: #2d3436; }
+        .spot-detail { font-size: 0.9rem; color: #636e72; margin-bottom: 8px; }
+        
+        .col-travel { width: 60px; padding: 0; vertical-align: middle; text-align: center; font-size: 0.75rem; color: var(--travel-time); position: relative; }
+        .travel-line { height: 100%; width: 2px; background: #e0e0e0; position: absolute; left: 50%; top: 0; z-index: 1; }
+        .travel-badge { position: relative; z-index: 2; background: white; border: 1px solid #ddd; padding: 2px 5px; border-radius: 10px; font-size: 0.7rem; white-space: nowrap; }
+
+        /* Tags */
+        .tag { font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; margin-right: 5px; color: white; }
+        .tag-tide { background: #0984e3; } /* Tide dependent */
+        .tag-eat { background: #f39c12; }
+        .tag-stay { background: #6c5ce7; }
+        
+        /* Visibility */
+        .plan-content { display: none; }
+        .plan-content.visible { display: block; }
+        .planB-text { color: var(--accent); }
+
+        @media (max-width: 600px) {
+            .col-time { width: 55px; padding: 10px 5px; }
+            .arrival-time { font-size: 0.9rem; }
+            .col-travel { width: 0; display: none; } /* Hide travel col on super small screens, simplified */
+            .duration-label { display: block; }
+        }
     </style>
+    <script>
+        function switchPlan(plan) {
+            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.toggle-btn[data-target="${plan}"]`).classList.add('active');
+            
+            document.querySelectorAll('.plan-content').forEach(content => content.classList.remove('visible'));
+            document.getElementById(plan).classList.add('visible');
+
+            const card = document.getElementById('day1-card');
+            card.className = `day-card d1 ${plan}`;
+        }
+    </script>
 </head>
-<body>
+<body onload="switchPlan('planA')">
+
+<header>
+    <h1>2026 澎湖精算行程</h1>
+    <p>5/23 (六) - 5/26 (二) | 采憶民宿 | 8人行</p>
+</header>
 
 <div class="container">
-    <h1>每日永續投獎與情報更新建議 🎯</h1>
-    <div class="role-info">
-        <p><strong>角色：</strong>食品塑膠包材 (PET/rPET, PLA, PP) 總經理兼永續長</p>
-        <p><strong>公司規模：</strong>營收 50 億台幣，90% 外銷歐洲/美國</p>
-        <p><strong>策略目標：</strong>鎖定國際性高能見度獎項，凸顯 rPET/PLA 循環經濟與減碳領導力。</p>
+
+    <div class="alert">
+        <strong>⚠️ 潮汐與行程關鍵報告：</strong>
+        1. <strong>Day 1 (小潮)：</strong> 11:10 乾潮。天堂路與小摩西請準時前往。若要抱墩需趕在 11:00 前抵達。<br>
+        2. <strong>Day 2 (藍洞)：</strong> 藍洞需配合船班，通常為上午巡航。<br>
+        3. <strong>Day 3 (摩西分海)：</strong> 13:35 乾潮。最佳步道時間調整為 <strong>12:30</strong> (午餐後)，上午去海是合起來的。<br>
+        4. <strong>返程：</strong> Day 4 飛機 14:00，<strong>12:40 務必離開市區</strong>。
     </div>
 
-    <div class="update-time">
-        更新時間：**2025 年 11 月 8 日 (星期六)** (此為首次彙整，未來請依據即時情報更新此處日期)
+    <div class="toggle-container">
+        <button class="toggle-btn active" data-target="planA" onclick="switchPlan('planA')">方案 A：北環觀光 (推薦)</button>
+        <button class="toggle-btn" data-target="planB" onclick="switchPlan('planB')">方案 B：阿婆抱墩 (趕)</button>
     </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>發布時間 (或報名週期)</th>
-                <th>發布單位/獎項名稱</th>
-                <th>投獎內容重點摘要</th>
-                <th>提出建議 (總經理兼永續長視角)</th>
-                <th>獎項連結網址 (請以當年度官方為準)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>每年 Q3-Q4 報名</td>
-                <td><span class="focus">國際</span> Ellen MacArthur Foundation - The Circular Economy Awards (或相關競賽)</td>
-                <td><span class="focus">重點：</span>全球最高規格的循環經濟獎項。鎖定「塑膠新經濟承諾」相關進展。</td>
-                <td class="suggestion">
-                    應優先提報 <span class="focus">rPET/PLA 閉鎖式循環系統</span> (Closed-loop System) 實績，以及與歐美品牌客戶共同達成的塑膠減量或再生料使用比例。此獎對歐洲客戶影響力極大。
+    <div id="day1-card" class="day-card d1 planA">
+        <div class="day-header">
+            <span class="day-title">Day 1: 北環與夜釣 (5/23)</span>
+            <a href="https://maps.google.com/?cid=7767344528204339004&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQ8" target="_blank" class="nav-link">📍 導航地圖</a>
+        </div>
+        
+        <table class="timeline-table">
+            <tr class="timeline-row">
+                <td class="col-time"><span class="arrival-time">10:10</span><span class="duration-label">下機</span></td>
+                <td class="col-content">
+                    <span class="spot-name">抵達澎湖機場</span>
+                    <span class="spot-detail">將行李交給業者托運至民宿。人員步行至車行。</span>
                 </td>
-                <td>[請自行替換為當年官方連結]</td>
+                <td class="col-travel"><div class="travel-badge">20分</div></td>
             </tr>
-            <tr>
-                <td>每年 Q2-Q3 報名</td>
-                <td><span class="focus">國際</span> WorldStar Global Packaging Awards</td>
-                <td><span class="focus">重點：</span>全球包裝設計與技術競賽。聚焦「可持續性」類別。</td>
-                <td class="suggestion">
-                    提報 <span class="focus">rPET/PLA 的結構創新設計</span>，不僅達到高循環性，同時優化運送體積（減碳），並附上產品生命週期分析 (LCA) 數據，證明其環境效益超越競爭者。
+            <tr class="timeline-row">
+                <td class="col-time"><span class="arrival-time">10:30</span><span class="duration-label">停20分</span></td>
+                <td class="col-content">
+                    <span class="spot-name">辦理租車</span>
+                    <span class="spot-detail">檢查車況、領取機車。10:50 準時出發北上。</span>
                 </td>
-                <td>[請自行替換為當年官方連結]</td>
+                <td class="col-travel"><div class="travel-badge">騎10分</div></td>
             </tr>
-            <tr>
-                <td>每年 Q1-Q2 報名</td>
-                <td><span class="focus">國際</span> SEAL Awards (Sustainability, Environmental Achievement, and Leadership)</td>
-                <td><span class="focus">重點：</span>美國主導的永續領導力獎項。涵蓋永續產品、專案等。</td>
-                <td class="suggestion">
-                    著重在 <span class="focus">美國市場的 rPET/rPP 應用案例</span>，強調在地化供應鏈或與美國零售商的合作專案。以數據化呈現對美國塑膠廢棄物問題的解決貢獻。
-                </td>
-                <td>[請自行替換為當年官方連結]</td>
-            </tr>
+        </table>
 
-            <tr>
-                <td>每年 6-8 月報名</td>
-                <td><span class="focus">國內</span> TCSA 台灣企業永續獎 (永續報告、永續行動)</td>
-                <td><span class="focus">重點：</span>台灣最具代表性永續獎。應投報 <span class="focus">「永續報告」</span>以強化 ESG 資訊揭露，並以 <span class="focus">「永續行動」</span>鎖定 SDG 12 (責任消費與生產)。</td>
-                <td class="suggestion">
-                    以總經理名義督導永續報告書的品質，特別強化**GRI/SASB/TCFD**的揭露與 rPET/PLA 的**減碳貢獻**。永續行動應聚焦 <span class="focus">製程綠色轉型與再生料技術的投入</span>。
-                </td>
-                <td>[請自行替換為當年官方連結]</td>
-            </tr>
-            <tr>
-                <td>每年 Q3 報名</td>
-                <td><span class="focus">國內</span> 天下永續公民獎 (中堅企業組)</td>
-                <td><span class="focus">重點：</span>評選標準涵蓋公司治理、企業承諾、社會參與及環境保護四大面向。</td>
-                <td class="suggestion">
-                    鞏固台灣企業形象，特別呈現公司治理 (G) 的透明度與高階主管對永續的承諾。強調 <span class="focus">PLA等新材料研發投入，以及對供應鏈上下游的永續輔導</span>。
-                </td>
-                <td>[請自行替換為當年官方連結]</td>
-            </tr>
+        <div id="planA" class="plan-content visible">
+            <table class="timeline-table">
+                <tr class="timeline-row">
+                    <td class="col-time"><span class="arrival-time">11:00</span><span class="duration-label">停30分</span></td>
+                    <td class="col-content">
+                        <span class="spot-name">瓦硐 & 城前社區</span>
+                        <span class="spot-detail">順路拍照：石鮔(章魚)裝置、鮮蚵公仔。</span>
+                    </td>
+                    <td class="col-travel"><div class="travel-badge">騎15分</div></td>
+                </tr>
+                <tr class="timeline-row">
+                    <td class="col-time"><span class="arrival-time">11:45</span><span class="duration-label">停40分</span></td>
+                    <td class="col-content">
+                        <span class="spot-name"><span class="tag tag-tide">潮汐</span>後寮天堂路</span>
+                        <span class="spot-detail">此時剛過乾潮(11:10)，水位低，可拍彎曲海堤。</span>
+                    </td>
+                    <td class="col-travel"><div class="travel-badge">騎10分</div></td>
+                </tr>
+                <tr class="timeline-row">
+                    <td class="col-time"><span class="arrival-time">12:35</span><span class="duration-label">停50分</span></td>
+                    <td class="col-content">
+                        <span class="spot-name"><span class="tag tag-eat">點心</span>通梁古榕 & 仙人掌冰</span>
+                        <span class="spot-detail">易家仙人掌冰、炸花枝丸/鯊魚排。休息避暑。</span>
+                    </td>
+                    <td class="col-travel"><div class="travel-badge">騎5分</div></td>
+                </tr>
+                <tr class="timeline-row">
+                    <td class="col-time"><span class="arrival-time">13:30</span><span class="duration-label">停60分</span></td>
+                    <td class="col-content">
+                        <span class="spot-name"><span class="tag tag-eat">午餐</span>小萍的店 (鯨魚洞)</span>
+                        <span class="spot-detail">必點：小管麵線、涼拌河豚皮。吃飽散步看鯨魚洞。</span>
+                    </td>
+                    <td class="col-travel"><div class="travel-badge">騎10分</div></td>
+                </tr>
+                <tr class="timeline-row">
+                    <td class="col-time"><span class="arrival-time">14:40</span><span class="duration-label">停50分</span></td>
+                    <td class="col-content">
+                        <span class="spot-name">二崁聚落保存區</span>
+                        <span class="spot-detail">喝杏仁茶、逛陳家古厝、買傳香。</span>
+                    </td>
+                    <td class="col-travel"><div class="travel-badge">騎10分</div></td>
+                </tr>
+                <tr class="timeline-row">
+                    <td class="col-time"><span class="arrival-time">15:40</span><span class="duration-label">停50分</span></td>
+                    <td class="col-content">
+                        <span class="spot-name"><span class="tag tag-tide">潮汐</span>大池炸粿 & 池西岩瀑</span>
+                        <span class="spot-detail">1. 買炸粿(排隊美食)。<br>2. 旁邊即是小摩西(九孔瀑布)，此時漲潮中，拍玄武岩為主。</span>
+                    </td>
+                    <td class="col-travel"><div class="travel-badge">騎50分</div></td>
+                </tr>
+            </table>
+        </div>
 
-            <tr>
-                <td>每年 Q1-Q2 報名</td>
-                <td><span class="focus">潛在</span> Plastics Industry Awards (歐洲/英國為主)</td>
-                <td><span class="focus">重點：</span>針對塑膠產業的特定技術、創新和永續發展的獎項。</td>
-                <td class="suggestion">
-                    這是直接與 <span class="focus">歐洲同業競爭與交流</span> 的平台。提報 <span class="focus">rPET/rPP/PLA 的化學或物理回收技術突破</span>，證明技術領先地位。
+        <div id="planB" class="plan-content">
+            <table class="timeline-table">
+                <tr class="timeline-row">
+                    <td class="col-time"><span class="arrival-time">11:00</span><span class="duration-label">停3hr</span></td>
+                    <td class="col-content">
+                        <span class="spot-name planB-text">阿婆抱墩 (赤崁)</span>
+                        <span class="spot-detail"><strong>⚠️ 時間極趕</strong><br>因 11:10 乾潮，需業者同意此時才開始。<br>含體驗與簡單午餐/點心。</span>
+                    </td>
+                    <td class="col-travel"><div class="travel-badge">騎15分</div></td>
+                </tr>
+                <tr class="timeline-row">
+                    <td class="col-time"><span class="arrival-time">14:30</span><span class="duration-label">停40分</span></td>
+                    <td class="col-content">
+                        <span class="spot-name">通梁古榕 & 仙人掌冰</span>
+                        <span class="spot-detail">活動結束後補充熱量。</span>
+                    </td>
+                    <td class="col-travel"><div class="travel-badge">騎5分</div></td>
+                </tr>
+                <tr class="timeline-row">
+                    <td class="col-time"><span class="arrival-time">15:15</span><span class="duration-label">停45分</span></td>
+                    <td class="col-content">
+                        <span class="spot-name">小萍的店 (點心)</span>
+                        <span class="spot-detail">吃小管麵線。</span>
+                    </td>
+                    <td class="col-travel"><div class="travel-badge">騎50分</div></td>
+                </tr>
+            </table>
+        </div>
+
+        <table class="timeline-table">
+            <tr class="timeline-row">
+                <td class="col-time"><span class="arrival-time">17:30</span><span class="duration-label">停50分</span></td>
+                <td class="col-content">
+                    <span class="spot-name">采憶民宿 Check-in</span>
+                    <span class="spot-detail">與行李會合，簡單梳洗。<br><strong>晚餐：</strong>市區簡單吃 (馬路益/蔥油餅)，勿太飽。</span>
                 </td>
-                <td>[請自行替換為當年官方連結]</td>
+                <td class="col-travel"><div class="travel-badge">騎10分</div></td>
             </tr>
-        </tbody>
-    </table>
+            <tr class="timeline-row">
+                <td class="col-time"><span class="arrival-time">18:40</span><span class="duration-label">集合</span></td>
+                <td class="col-content">
+                    <span class="spot-name">前往南海遊客中心</span>
+                    <span class="spot-detail">請攜帶身分證件。</span>
+                </td>
+                <td class="col-travel"><div class="travel-badge">船行</div></td>
+            </tr>
+            <tr class="timeline-row">
+                <td class="col-time"><span class="arrival-time">19:00</span><span class="duration-label">約2hr</span></td>
+                <td class="col-content">
+                    <span class="spot-name"><span class="tag tag-stay">夜釣</span>和慶夜釣小管</span>
+                    <span class="spot-detail">半潛艇看海底、釣小管、吃小管麵線。</span>
+                </td>
+                <td class="col-travel"><div class="travel-badge">返宿</div></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="day-card d2">
+        <div class="day-header">
+            <span class="day-title">Day 2: 藍洞七美 & 大餐 (5/24)</span>
+            <a href="https://maps.google.com/maps?q=南海遊客中心&t=&z=14&ie=UTF8&iwloc=&output=embed" target="_blank" class="nav-link">📍 南海碼頭</a>
+        </div>
+        <table class="timeline-table">
+            <tr class="timeline-row">
+                <td class="col-time"><span class="arrival-time">07:30</span><span class="duration-label">集合</span></td>
+                <td class="col-content">
+                    <span class="spot-name">南海遊客中心 (報到)</span>
+                    <span class="spot-detail">早餐建議外帶 (鐘記燒餅)。參加「七美+藍洞」行程。</span>
+                </td>
+                <td class="col-travel"><div class="travel-badge">船行</div></td>
+            </tr>
+            <tr class="timeline-row">
+                <td class="col-time"><span class="arrival-time">09:00</span><span class="duration-label">巡航</span></td>
+                <td class="col-content">
+                    <span class="spot-name">西吉嶼 (藍洞)</span>
+                    <span class="spot-detail">船長會靠近藍洞讓大家在船上拍照 (無法進入)，欣賞玄武岩與透藍海水。</span>
+                </td>
+                <td class="col-travel"><div class="travel-badge">船行</div></td>
+            </tr>
+            <tr class="timeline-row">
+                <td class="col-time"><span class="arrival-time">10:00</span><span class="duration-label">停3hr</span></td>
+                <td class="col-content">
+                    <span class="spot-name">七美島 (登島騎車)</span>
+                    <span class="spot-detail">雙心石滬、小台灣、望夫石。約 13:30 返航。</span>
+                </td>
+                <td class="col-travel"><div class="travel-badge">船行</div></td>
+            </tr>
+            <tr class="timeline-row">
+                <td class="col-time"><span class="arrival-time">14:40</span><span class="duration-label">停1hr</span></td>
+                <td class="col-content">
+                    <span class="spot-name">返抵馬公港 & 休息</span>
+                    <span class="spot-detail">回民宿稍作整理，準備送機。</span>
+                </td>
+                <td class="col-travel"><div class="travel-badge">車15分</div></td>
+            </tr>
+            <tr class="timeline-row">
+                <td class="col-time"><span class="arrival-time">16:00</span><span class="duration-label">送機</span></td>
+                <td class="col-content">
+                    <span class="spot-name">送朋友前往機場</span>
+                    <span class="spot-detail">17:00 飛機。送完機後返回市區。</span>
+                </td>
+                <td class="col-travel"><div class="travel-badge">車20分</div></td>
+            </tr>
+            <tr class="timeline-row">
+                <td class="col-time"><span class="arrival-time">17:30</span><span class="duration-label">慢食</span></td>
+                <td class="col-content">
+                    <span class="spot-name"><span class="tag tag-eat">晚餐</span>燒烤吃到飽 或 癮餐廳</span>
+                    <span class="spot-detail">今晚無行程，可慢慢享用大餐。</span>
+                </td>
+                <td class="col-travel"><div class="travel-badge">休息</div></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="day-card d3">
+        <div class="day-header">
+            <span class="day-title">Day 3: 摩西分海與花火 (5/25)</span>
+            <a href="https://maps.google.com/maps?q=奎壁山摩西分海&t=&z=12&ie=UTF8&iwloc=&output=embed" target="_blank" class="nav-link">📍 湖西導航</a>
+        </div>
+        <table class="timeline-table">
+            <tr class="timeline-row">
+                <td class="col-time"><span class="arrival-time">09:30</span><span class="duration-label">停1hr</span></td>
+                <td class="col-content">
+                    <span class="spot-name">南寮古厝 (浮球秘境)</span>
+                    <span class="spot-detail"><strong>行程調整：</strong>因配合潮汐，早上先來南寮拍照。</span>
+                </td>
+                <td class="col-travel"><div class="travel-badge">騎10分</div></td>
+            </tr>
+            <tr class="timeline-row">
+                <td class="col-time"><span class="arrival-time">11:00</span><span class="duration-label">停1hr</span></td>
+                <td class="col-content">
+                    <span class="spot-name"><span class="tag tag-eat">午餐</span>龍門海鮮 或 隘門BBQ</span>
+                    <span class="spot-detail">先吃午餐，等待退潮。</span>
+                </td>
+                <td class="col-travel"><div class="travel-badge">騎10分</div></td>
+            </tr>
+            <tr class="timeline-row">
+                <td class="col-time"><span class="arrival-time">12:30</span><span class="duration-label">停1hr</span></td>
+                <td class="col-content">
+                    <span class="spot-name"><span class="tag tag-tide">潮汐</span>奎壁山摩西分海</span>
+                    <span class="spot-detail"><strong>最佳時機！</strong> 乾潮 13:35。此時步道完整浮現，S型步道最美。</span>
+                </td>
+                <td class="col-travel"><div class="travel-badge">騎20分</div></td>
+            </tr>
+            <tr class="timeline-row">
+                <td class="col-time"><span class="arrival-time">14:00</span><span class="duration-label">停2hr</span></td>
+                <td class="col-content">
+                    <span class="spot-name">山水沙灘</span>
+                    <span class="spot-detail">午後玩水、踏浪、看夕陽。</span>
+                </td>
+                <td class="col-travel"><div class="travel-badge">騎15分</div></td>
+            </tr>
+            <tr class="timeline-row">
+                <td class="col-time"><span class="arrival-time">19:00</span><span class="duration-label">停1hr</span></td>
+                <td class="col-content">
+                    <span class="spot-name"><span class="tag tag-eat">晚餐</span>市區海鮮餐廳</span>
+                    <span class="spot-detail">668海鮮或來福海鮮。</span>
+                </td>
+                <td class="col-travel"><div class="travel-badge">步/騎</div></td>
+            </tr>
+            <tr class="timeline-row">
+                <td class="col-time"><span class="arrival-time">20:30</span><span class="duration-label">觀賞</span></td>
+                <td class="col-content">
+                    <span class="spot-name">🎆 觀音亭花火節</span>
+                    <span class="spot-detail">21:00 施放。建議 20:30 進場找位子。</span>
+                </td>
+                <td class="col-travel"><div class="travel-badge">休息</div></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="day-card d4">
+        <div class="day-header">
+            <span class="day-title">Day 4: 古蹟與返程 (5/26)</span>
+            <a href="https://maps.google.com/maps?q=澎湖天后宮&t=&z=15&ie=UTF8&iwloc=&output=embed" target="_blank" class="nav-link">📍 機場導航</a>
+        </div>
+        <table class="timeline-table">
+            <tr class="timeline-row">
+                <td class="col-time"><span class="arrival-time">10:00</span><span class="duration-label">退房</span></td>
+                <td class="col-content">
+                    <span class="spot-name">退房 & 寄放行李</span>
+                    <span class="spot-detail">把握最後市區時光。</span>
+                </td>
+                <td class="col-travel"><div class="travel-badge">騎5分</div></td>
+            </tr>
+            <tr class="timeline-row">
+                <td class="col-time"><span class="arrival-time">10:30</span><span class="duration-label">停1.5hr</span></td>
+                <td class="col-content">
+                    <span class="spot-name">天后宮 & 中央老街</span>
+                    <span class="spot-detail">四眼井、乾益堂藥膳蛋、買黑糖糕。</span>
+                </td>
+                <td class="col-travel"><div class="travel-badge">步/騎</div></td>
+            </tr>
+            <tr class="timeline-row">
+                <td class="col-time"><span class="arrival-time">12:00</span><span class="duration-label">停40分</span></td>
+                <td class="col-content">
+                    <span class="spot-name"><span class="tag tag-eat">午餐</span>馬路益 / 讚哥</span>
+                    <span class="spot-detail">市區快速解決午餐，避免跑遠。</span>
+                </td>
+                <td class="col-travel"><div class="travel-badge">騎5分</div></td>
+            </tr>
+            <tr class="timeline-row">
+                <td class="col-time"><span class="arrival-time">12:40</span><span class="duration-label">出發</span></td>
+                <td class="col-content">
+                    <span class="spot-name" style="color:#e63946">前往機場 (死線)</span>
+                    <span class="spot-detail">回民宿拿行李，前往機場。</span>
+                </td>
+                <td class="col-travel"><div class="travel-badge">車20分</div></td>
+            </tr>
+            <tr class="timeline-row">
+                <td class="col-time"><span class="arrival-time">13:00</span><span class="duration-label">報到</span></td>
+                <td class="col-content">
+                    <span class="spot-name">機場櫃檯報到</span>
+                    <span class="spot-detail">辦理登機手續，托運行李。</span>
+                </td>
+                <td class="col-travel"><div class="travel-badge">等待</div></td>
+            </tr>
+            <tr class="timeline-row">
+                <td class="col-time"><span class="arrival-time">14:00</span><span class="duration-label">起飛</span></td>
+                <td class="col-content">
+                    <span class="spot-name">✈️ 飛機起飛</span>
+                    <span class="spot-detail">平安返家。</span>
+                </td>
+                <td class="col-travel"><div class="travel-badge">END</div></td>
+            </tr>
+        </table>
+    </div>
+
 </div>
 
 </body>
